@@ -35,7 +35,7 @@ const networkSchema = new Schema(
         .virtual('friendcount')
           // Getter
           .get(function () {
-              return `${this.friends}`;
+              return this.friends.length;
           });
 
    
