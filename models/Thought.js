@@ -1,4 +1,4 @@
-const { Schema, model, types } = require('mongoose');
+const { Schema, model, } = require('mongoose');
 
 const reactionSchema = new mongoose.schema({
     reactionId: { type: schema.types.ObjectId, default: () => new Types.ObjectId() },
@@ -37,3 +37,6 @@ const networkSchema = new Schema(
     }
 );
 
+const User = model('user', networkSchema);
+  
+module.exports = networkSchema;
