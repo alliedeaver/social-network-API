@@ -1,7 +1,8 @@
 const { Schema, model, } = require('mongoose');
+const mongoose = require('mongoose');
 
-const reactionSchema = new mongoose.schema({
-    reactionId: { type: schema.types.ObjectId, default: () => new Types.ObjectId() },
+const reactionSchema = new mongoose.Schema({
+    reactionId: { type: Schema.Types.ObjectId, default: () => new Types.ObjectId() },
     reactionBody: {
         type: String, required: true,
         maxlength: 280
@@ -16,7 +17,7 @@ const reactionSchema = new mongoose.schema({
     }
 });
 
-const networkSchema = new Schema(
+const thoughtSchema = new Schema(
     {
         thoughtText: {
             type: String,
@@ -37,6 +38,7 @@ const networkSchema = new Schema(
     }
 );
 
-const User = model('user', networkSchema);
-  
-module.exports = networkSchema;
+
+const Thought = model('user', thoughtSchema);
+
+module.exports = thoughtSchema;
