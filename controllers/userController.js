@@ -12,7 +12,7 @@ module.exports = {
     },
     async getSingleUser(req, res) {
         try {
-            const user = await User.findOne({ _id: req.params.UserId })
+            const user = await User.findOne({ _id: req.params.id })
                 //what do we populate??
                 // .populate('user');
             if (!user) {
@@ -56,7 +56,7 @@ module.exports = {
     async updateUser(req, res) {
         try {
             const updatedUser = await User.findOneAndUpdate(
-                { _id: req.params.userId },
+                { _id: req.params.id },
                 { $set: req.body },
                 { runValidators: true, new: true }
             );
@@ -74,7 +74,7 @@ module.exports = {
 
     async deleteUser(req, res) {
         try {
-            const deleteUser = await User.findOneAndRemove({ _id: req.params.userId });
+            const deleteUser = await User.findOneAndRemove({ _id: req.params.id });
 
             if (!deleteUser) {
                 return res.status(404).json({ message: 'No user was found with this id!' });
@@ -118,9 +118,9 @@ module.exports = {
           },
           async removeFriend(req, res) {
             try {
-              const friend = await User.findOneAndUpdate(
+              const friend = await User.findOneAndDelete(
                 { _id: req.params.userId },
-                { $pull: { friends: { responseId: req.params.friendId } } },
+                { $pull: { friends: req.params.friendId } },
                 { runValidators: true, new: true }
               )
         
@@ -128,7 +128,7 @@ module.exports = {
                 return res.status(404).json({ message: 'No friend found with this id!' });
               }
         
-              res.json(video);
+              res.json({message: "friend deleted"});
             } catch (err) {
               res.status(500).json(err);
             }

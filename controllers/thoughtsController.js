@@ -1,10 +1,9 @@
-const Thoughts = require('../models');
+const { Thought } = require('../models');
 
 module.exports = {
     async getThoughts(req, res) {
         try {
-            const thought = await Thoughts.find()
-                .populate('thought');
+            const thought = await Thought.find();
             res.json(thought);
         } catch (err) {
             res.status(500).json(err);
@@ -12,7 +11,7 @@ module.exports = {
     },
     async getSingleThought(req, res) {
         try {
-            const thought = await Thoughts.findOne({ _id: req.params.userId })
+            const thought = await Thought.findOne({ _id: req.params.id })
                 //what do we populate??
                 // .populate('thought');
             if (!thought) {
@@ -26,37 +25,18 @@ module.exports = {
     // create a new user
     async createNewThought(req, res) {
         try {
-            const dbUserData = await Thoughts.create(req.body);
+            const dbUserData = await Thought.create(req.body);
             res.json(dbUserData);
         } catch (err) {
             res.status(500).json(err);
         }
     },
 
-    async createNewThought(req, res) {
-        try {
-            const newThought = await Thoughts.create(req.body)(
-                { _id: req.body.userId },
-                { $addToSet: { Thoughts: newThought._id } },
-                { new: true }
-            );
-
-            if (!newThought) {
-                return res.status(404).json({
-                    message: 'A new thought was created, but found no thought with that ID',
-                });
-            }
-            res.json('Created a new Thought! 🎉');
-        } catch (err) {
-            console.log(err);
-            res.status(500).json(err);
-        }
-    },
 
     async updateThought(req, res) {
         try {
-            const updatedThought = await Thoughts.findOneAndUpdate(
-                { _id: req.params.thoughtId },
+            const updatedThought = await Thought.findOneAndUpdate(
+                { _id: req.params.id },
                 { $set: req.body },
                 { runValidators: true, new: true }
             );
@@ -74,7 +54,7 @@ module.exports = {
 
     async deleteThought(req, res) {
         try {
-            const deleteThought = await Thoughts.findOneAndRemove({ _id: req.params.thoughtId });
+            const deleteThought = await Thought.findOneAndRemove({ _id: req.params.id });
 
             if (!deleteThought) {
                 return res.status(404).json({ message: 'No thought was found with this id!' });
@@ -100,9 +80,12 @@ module.exports = {
 
     async createReaction(req, res) {
         try {
-            const newReaction = await reaction.create(req.body)(
-                { _id: req.body.thoughtId },
-                { $addToSet: { reactions: req.body } },
+            const newReaction = await Thought.findOneAndUpdate(
+                { _id: req.params.thoughtId },
+                { $push: { reactions: {
+                    reactionBody: req.body.reactionBody, 
+                    username: req.body.username
+                }}  },
                 { new: true }
             );
 
@@ -121,7 +104,16 @@ module.exports = {
 
     async deleteReaction(req, res) {
         try {
-            const deleteReaction = await reaction.findOneAndRemove({ _id: req.params.thoughtId/reactions });
+            const deleteReaction = await Thought.findOneAndUpdate(
+                
+                {_id: req.params.thoughtId},
+                {$pull:{
+                    reactions: {
+                        reactionId: req.params.reactionId
+                    }
+                }},
+                { new: true }
+                );
 
             if (!deleteReaction) {
                 return res.status(404).json({ message: 'No reaction was found with this id!' });
