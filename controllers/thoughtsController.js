@@ -14,7 +14,7 @@ module.exports = {
         try {
             const thought = await Thoughts.findOne({ _id: req.params.userId })
                 //what do we populate??
-                .populate('thought');
+                // .populate('thought');
             if (!thought) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
@@ -35,7 +35,7 @@ module.exports = {
 
     async createNewThought(req, res) {
         try {
-            const newThought = await Thought.create(req.body)(
+            const newThought = await Thoughts.create(req.body)(
                 { _id: req.body.userId },
                 { $addToSet: { Thoughts: newThought._id } },
                 { new: true }

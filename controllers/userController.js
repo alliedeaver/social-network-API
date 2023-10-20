@@ -14,7 +14,7 @@ module.exports = {
         try {
             const user = await User.findOne({ _id: req.params.userId })
                 //what do we populate??
-                .populate('user');
+                // .populate('user');
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
             }
