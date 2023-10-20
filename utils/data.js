@@ -66,9 +66,9 @@ const users = [
     'Sarah',
     'Nathaniel',
     'Parker',
-  ];
-  
-  const thoughtDescriptions = [
+];
+
+const thoughtDescriptions = [
     'How did you do that?',
     'Do you like Disneyland?',
     'I love star wars',
@@ -87,9 +87,9 @@ const users = [
     'I love diet coke',
     'Las Vegas is my home',
     'Uber eatsss!!!',
-  ];
-  
-  const PossibleReactions = [
+];
+
+const PossibleReactions = [
     'WOW',
     'Nice work!',
     'Wanna be friends?',
@@ -101,45 +101,46 @@ const users = [
     'Did it work?',
     'Youre so cool',
     'Lets hang out!',
-  ];
-  
-  const User = [];
-  
-  // Get a random item given an array
-  const getRandomArrItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  
-  // Gets a random full name
-  const getRandomUser = () =>
-    `${getRandomArrItem(users)} ${getRandomArrItem(users)}`;
-  
-  // Function to generate random applications that we can add to the database. Includes application tags.
-  const getRandomApplications = (int) => {
+];
+
+const User = [];
+
+// Get a random user given an array
+const getRandomUser = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+// Gets a random user
+const getArrUser = () =>
+    `${getRandomUser(users)} ${getArrUser(users)}`;
+
+
+const getRandomArrUser = (int) => {
     let results = [];
     for (let i = 0; i < int; i++) {
-      results.push({
-        published: Math.random() < 0.5,
-        description: getRandomArrItem(thoughtDescriptions),
-        buildSuccess: Math.random() < 0.5,
-        tags: [...getApplicationThoughts(3)],
-      });
+        results.push({
+            // published: Math.random() < 0.5,
+            description: getRandomUser(thoughtDescriptions),
+            // buildSuccess: Math.random() < 0.5,
+            reactions: [...getRandomArrUser(3)],
+        });
     }
     return results;
-  };
-  
-  // Create the tags that will be added to each application
-  const getPossibleReactions = (int) => {
+};
+
+// Create the tags that will be added to each application
+const getPossibleReactions = (int) => {
     if (int === 1) {
-      return getRandomArrItem(possibleTags);
+        return getRandomArrItem(PossibleReactions);
     }
     const results = [];
     for (let i = 0; i < int; i++) {
-      results.push({
-        tagBody: getRandomArrItem(PossibleReactions),
-        username: getRandomName(),
-      });
+        results.push({
+            reactionBody: getRandomArrItem(PossibleReactions),
+            username: getPossibleReactions(),
+        });
     }
     return results;
-  };
-  
-  // Export the functions for use in seed.js
-  module.exports = { getRandomName, getRandomApplications };
+};
+
+
+// Export the functions for use in seed.js
+module.exports = { getRandomUser, getArrUser, getPossibleReactions };
