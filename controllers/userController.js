@@ -12,7 +12,7 @@ module.exports = {
     },
     async getSingleUser(req, res) {
         try {
-            const user = await User.findOne({ _id: req.params.userId })
+            const user = await User.findOne({ _id: req.params.UserId })
                 //what do we populate??
                 // .populate('user');
             if (!user) {
@@ -24,34 +24,34 @@ module.exports = {
         }
     },
     // create a new user
-    async createUser(req, res) {
-        try {
-            const dbUserData = await User.create(req.body);
-            res.json(dbUserData);
-        } catch (err) {
-            res.status(500).json(err);
-        }
-    },
-
     async createNewUser(req, res) {
         try {
-            const newUser = await User.create(req.body)(
-                { _id: req.body.userId },
-                { $addToSet: { users: newUser._id } },
-                { new: true }
-            );
-
-            if (!newUser) {
-                return res.status(404).json({
-                    message: 'User was created, but found no user with that ID',
-                });
-            }
-            res.json('Created a new User 🎉');
+            const user = await User.create(req.body);
+            res.json(user);
         } catch (err) {
-            console.log(err);
             res.status(500).json(err);
         }
     },
+
+    // async createNewUser(req, res) {
+    //     try {
+    //         const newUser = await User.create(req.body)(
+    //             { _id: req.body.userId },
+    //             { $addToSet: { users: newUser._id } },
+    //             { new: true }
+    //         );
+
+    //         if (!newUser) {
+    //             return res.status(404).json({
+    //                 message: 'User was created, but found no user with that ID',
+    //             });
+    //         }
+    //         res.json('Created a new User 🎉');
+    //     } catch (err) {
+    //         console.log(err);
+    //         res.status(500).json(err);
+    //     }
+    // },
 
     async updateUser(req, res) {
         try {

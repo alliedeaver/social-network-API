@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 
+
 const networkSchema = new Schema(
     {
         username: {
@@ -12,7 +13,7 @@ const networkSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            match: [/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, "Not a valid email!"]
+            match: [/.+@.+..+/, "Not a valid email!"]
             
         },
         thoughts: [
@@ -39,4 +40,4 @@ const networkSchema = new Schema(
    
 const User = model('user', networkSchema);
   
-module.exports = networkSchema;
+module.exports = User;
