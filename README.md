@@ -10,3 +10,8 @@ Through the terminal run npm i, and then node server. The server will then be ru
 
 ## Link 
 https://github.com/alliedeaver/social-network-API
+
+## VIDEO
+
+https://github.com/alliedeaver/social-network-API/assets/141384805/f9a08eea-f884-4e05-b707-a08a827cb2ec
+
